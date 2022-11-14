@@ -1,0 +1,4 @@
+.history/
+.DS_Store
+*.zip
+my_lambda.json
