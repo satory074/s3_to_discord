@@ -30,6 +30,11 @@ def lambda_handler(event, context):
 
     for rec in event["Records"]:
         color = colors[rec["eventName"]] if rec["eventName"] in colors else 0x000000
+        size = (
+            convert_size(rec["s3"]["object"]["size"])
+            if "size" in rec["s3"]["object"]
+            else ""
+        )
 
         # Webhook data
         data = {
@@ -38,7 +43,7 @@ def lambda_handler(event, context):
             "embeds": [
                 {
                     "title": rec["s3"]["object"]["key"],
-                    "description": convert_size(rec["s3"]["object"]["size"]),
+                    "description": size,
                     "color": color,
                     "timestamp": rec["eventTime"],
                     "footer": {"text": rec["eventName"]},
